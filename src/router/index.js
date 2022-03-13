@@ -4,6 +4,7 @@ import Login from "../views/Login.vue";
 import SignUp from "../views/SignUp.vue";
 import Logout from "../views/Logout.vue";
 import ShowPost from "../views/ShowPost.vue";
+import ShowUser from "../views/ShowUser.vue";
 
 const routes = [
   {
@@ -20,6 +21,7 @@ const routes = [
   { path: "/signup", name: "SignUp", component: SignUp },
   { path: "/logout", name: "Logout", component: Logout },
   { path: "/posts/:id", name: "ShowPost", component: ShowPost },
+  { path: "/users/:id", name: "ShowUser", component: ShowUser },
 ];
 
 const router = createRouter({
