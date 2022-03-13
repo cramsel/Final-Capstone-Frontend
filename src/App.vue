@@ -42,6 +42,9 @@ export default {
           <li class="nav-item">
             <a class="nav-link" v-if="isLoggedIn" href="/logout">Logout</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/builder">Song Builder</a>
+          </li>
           <!-- <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"

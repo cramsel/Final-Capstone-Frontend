@@ -6,6 +6,7 @@ import Logout from "../views/Logout.vue";
 import ShowPost from "../views/ShowPost.vue";
 import ShowUser from "../views/ShowUser.vue";
 import NewPost from "../views/NewPost.vue";
+import SoundInterface from "../views/SoundInterface.vue";
 
 const routes = [
   {
@@ -24,6 +25,7 @@ const routes = [
   { path: "/posts/:id", name: "ShowPost", component: ShowPost },
   { path: "/users/:id", name: "ShowUser", component: ShowUser },
   { path: "/posts/new", name: "NewPost", component: NewPost },
+  { path: "/builder", name: "SoundInterface", component: SoundInterface },
 ];
 
 const router = createRouter({
