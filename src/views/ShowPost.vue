@@ -24,7 +24,9 @@ export default {
 
 <template>
   <div class="Main Post">
-    <p>{{ post.user.username }}</p>
+    <a v-bind:href="`/users/${post.user.id}`">
+      <p>{{ post.user.username }}</p>
+    </a>
     <audio controls v-if="post.audio_url">
       <source v-bind:src="post.audio_url" />
     </audio>

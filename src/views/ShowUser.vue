@@ -32,6 +32,7 @@ export default {
     <h1>{{ post.title }}</h1>
     <p>{{ post.description }}</p>
   </div>
+  <a v-bind:href="`/posts/new`">New Post</a>
 </template>
 
 <style></style>
