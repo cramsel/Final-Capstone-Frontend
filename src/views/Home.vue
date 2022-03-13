@@ -23,7 +23,9 @@ export default {
 
 <template>
   <div class="home" v-for="post in posts" v-bind:key="post.id">
-    <h2>{{ post.title }}</h2>
+    <a v-bind:href="`/posts/${post.id}`">
+      <h2>{{ post.title }}</h2>
+    </a>
     <audio controls v-if="post.audio_url">
       <source v-bind:src="post.audio_url" />
     </audio>
