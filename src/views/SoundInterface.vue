@@ -82,9 +82,13 @@ export default {
   </div>
   <div>
     <button v-on:mousedown="startNote('C4')" v-on:mouseup="stopNote('C4')">C note</button>
-  </div>
-  <div>
+    <button v-on:mousedown="startNote('D4')" v-on:mouseup="stopNote('D4')">D note</button>
+    <button v-on:mousedown="startNote('E4')" v-on:mouseup="stopNote('E4')">E note</button>
+    <button v-on:mousedown="startNote('F4')" v-on:mouseup="stopNote('F4')">F note</button>
+    <button v-on:mousedown="startNote('G4')" v-on:mouseup="stopNote('G4')">G note</button>
+    <button v-on:mousedown="startNote('A4')" v-on:mouseup="stopNote('A4')">A note</button>
     <button v-on:mousedown="startNote('B4')" v-on:mouseup="stopNote('B4')">B note</button>
+    <button v-on:mousedown="startNote('C5')" v-on:mouseup="stopNote('C5')">C note</button>
   </div>
   <div>
     BPM:
