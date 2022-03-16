@@ -28,7 +28,22 @@ export default {
       synth.triggerAttackRelease(this.lastNote, this.time);
     },
     playLoop: function () {
-      console.log("test");
+      const synth = new Tone.Synth().toDestination();
+      const now = Tone.now();
+      // this.sequence.forEach((notes) => {
+      //   console.log(notes);
+      //   setTimeout((notes, i) => {
+      //     console.log(notes);
+      //     synth.triggerAttackRelease(notes[i], notes[i + 1], now + notes[i + 1]);
+      //   }, this.time);
+      // });
+
+      var startTime = 0;
+      this.sequence.forEach((note) => {
+        console.log(note);
+        synth.triggerAttackRelease(note[0], note[1], now + startTime);
+        startTime += note[1] + 0.1;
+      });
     },
     startNote: function (note) {
       console.log("startNote");
@@ -49,6 +64,7 @@ export default {
       this.time = (this.endTime - this.startTime) / 1000;
       console.log(this.time);
       console.log(note);
+      this.lastNote = note;
       this.sequence.push([this.lastNote, this.time]);
     },
   },
@@ -59,10 +75,10 @@ export default {
   <h2>Sequence</h2>
   {{ sequence }}
   <div>
-    <button v-on:click="makeNote()">Test</button>
+    <button v-if="lastNote" v-on:click="makeNote()">Test</button>
   </div>
   <div>
-    <button v-on:click="playLoop()">Play</button>
+    <button v-if="sequence" v-on:click="playLoop()">Play</button>
   </div>
   <div>
     <button v-on:mousedown="startNote('C4')" v-on:mouseup="stopNote('C4')">C note</button>
