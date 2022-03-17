@@ -16,30 +16,16 @@ export default {
   },
   created: function () {},
   methods: {
-    // setBPM: function () {},
-    noteDuration: function () {
-      console.log("test");
-    },
-    //this is the stopping point for the night, for some reason this plays an A
-    //instead of a B or a C
     makeNote: function () {
       console.log("Test");
       const synth = new Tone.Synth().toDestination();
       synth.triggerAttackRelease(this.lastNote, this.time);
     },
-    playLoop: function () {
+    playLoop: function (sequence) {
       const synth = new Tone.Synth().toDestination();
       const now = Tone.now();
-      // this.sequence.forEach((notes) => {
-      //   console.log(notes);
-      //   setTimeout((notes, i) => {
-      //     console.log(notes);
-      //     synth.triggerAttackRelease(notes[i], notes[i + 1], now + notes[i + 1]);
-      //   }, this.time);
-      // });
-
       var startTime = 0;
-      this.sequence.forEach((note) => {
+      sequence.forEach((note) => {
         console.log(note);
         synth.triggerAttackRelease(note[0], note[1], now + startTime);
         startTime += note[1] + 0.1;
@@ -47,8 +33,6 @@ export default {
     },
     startNote: function (note) {
       console.log("startNote");
-      // const synth = new Tone.Synth().toDestination();
-      // this.note = synth.triggerRelease(["C4", "8n"]);
       const synth = new Tone.Synth().toDestination();
       const now = Tone.now();
       // trigger the attack immediately
@@ -67,6 +51,16 @@ export default {
       this.lastNote = note;
       this.sequence.push([this.lastNote, this.time]);
     },
+    saveSequence: function (seqNum) {
+      localStorage.setItem(`sequence${seqNum}`, JSON.stringify(this.sequence));
+    },
+    clearSequence: function () {
+      this.sequence = [];
+    },
+    playSavedSequence: function (seqNum) {
+      var savedSequence = JSON.parse(localStorage.getItem(`sequence${seqNum}`));
+      this.playLoop(savedSequence);
+    },
   },
 };
 </script>
@@ -78,9 +72,9 @@ export default {
     <button v-if="lastNote" v-on:click="makeNote()">Test</button>
   </div>
   <div>
-    <button v-if="sequence" v-on:click="playLoop()">Play</button>
+    <button v-if="sequence" v-on:click="playLoop(this.sequence)">Play</button>
   </div>
-  <div>
+  <div class="notes">
     <button v-on:mousedown="startNote('C4')" v-on:mouseup="stopNote('C4')">C note</button>
     <button v-on:mousedown="startNote('D4')" v-on:mouseup="stopNote('D4')">D note</button>
     <button v-on:mousedown="startNote('E4')" v-on:mouseup="stopNote('E4')">E note</button>
@@ -89,6 +83,13 @@ export default {
     <button v-on:mousedown="startNote('A4')" v-on:mouseup="stopNote('A4')">A note</button>
     <button v-on:mousedown="startNote('B4')" v-on:mouseup="stopNote('B4')">B note</button>
     <button v-on:mousedown="startNote('C5')" v-on:mouseup="stopNote('C5')">C note</button>
+  </div>
+  <div>
+    <button @click="saveSequence(1)">Save Sequence</button>
+    <button @click="clearSequence()">Clear Sequence</button>
+  </div>
+  <div>
+    <button @click="playSavedSequence(1)">Saved Sequence 1</button>
   </div>
   <div>
     BPM:
