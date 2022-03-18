@@ -16,11 +16,6 @@ export default {
   },
   created: function () {},
   methods: {
-    makeNote: function () {
-      console.log("Test");
-      const synth = new Tone.Synth().toDestination();
-      synth.triggerAttackRelease(this.lastNote, this.time);
-    },
     playLoop: function (sequence) {
       const synth = new Tone.Synth().toDestination();
       const now = Tone.now();
@@ -61,39 +56,65 @@ export default {
       var savedSequence = JSON.parse(localStorage.getItem(`sequence${seqNum}`));
       this.playLoop(savedSequence);
     },
+    postSequence: function () {
+      console.log("test");
+    },
   },
 };
 </script>
 
 <template>
-  <h2>Sequence</h2>
-  {{ sequence }}
   <div>
-    <button v-if="lastNote" v-on:click="makeNote()">Test</button>
-  </div>
-  <div>
-    <button v-if="sequence" v-on:click="playLoop(this.sequence)">Play</button>
-  </div>
-  <div class="notes">
-    <button v-on:mousedown="startNote('C4')" v-on:mouseup="stopNote('C4')">C note</button>
-    <button v-on:mousedown="startNote('D4')" v-on:mouseup="stopNote('D4')">D note</button>
-    <button v-on:mousedown="startNote('E4')" v-on:mouseup="stopNote('E4')">E note</button>
-    <button v-on:mousedown="startNote('F4')" v-on:mouseup="stopNote('F4')">F note</button>
-    <button v-on:mousedown="startNote('G4')" v-on:mouseup="stopNote('G4')">G note</button>
-    <button v-on:mousedown="startNote('A4')" v-on:mouseup="stopNote('A4')">A note</button>
-    <button v-on:mousedown="startNote('B4')" v-on:mouseup="stopNote('B4')">B note</button>
-    <button v-on:mousedown="startNote('C5')" v-on:mouseup="stopNote('C5')">C note</button>
-  </div>
-  <div>
-    <button @click="saveSequence(1)">Save Sequence</button>
-    <button @click="clearSequence()">Clear Sequence</button>
-  </div>
-  <div>
-    <button @click="playSavedSequence(1)">Saved Sequence 1</button>
-  </div>
-  <div>
-    BPM:
-    <input type="number" v-model="BPM" />
+    <h2>Sequence</h2>
+    {{ sequence }}
+
+    <div>
+      <button v-if="sequence" v-on:click="playLoop(this.sequence)">Play</button>
+    </div>
+    <div class="notes">
+      <button
+        v-on:mousedown="startNote('C4')"
+        @keydown.a="startNote('C4')"
+        v-on:mouseup="stopNote('C4')"
+        @keyup.a="stopNote('C4')"
+      >
+        C note
+      </button>
+      <button v-on:mousedown="startNote('D4')" v-on:mouseup="stopNote('D4')">D note</button>
+      <!-- <button @keydown.d="startNote('D4')" @keyup.d="stopNote('D4')">Test note</button> -->
+      <!-- stopping point for the night, need to research keyup/down for vue as 
+      well as looking into making these as posts -->
+
+      <button v-on:mousedown="startNote('E4')" v-on:mouseup="stopNote('E4')">E note</button>
+      <button v-on:mousedown="startNote('F4')" v-on:mouseup="stopNote('F4')">F note</button>
+      <button v-on:mousedown="startNote('G4')" v-on:mouseup="stopNote('G4')">G note</button>
+      <button v-on:mousedown="startNote('A4')" v-on:mouseup="stopNote('A4')">A note</button>
+      <button v-on:mousedown="startNote('B4')" v-on:mouseup="stopNote('B4')">B note</button>
+      <button v-on:mousedown="startNote('C5')" v-on:mouseup="stopNote('C5')">C note</button>
+    </div>
+    <div>
+      <button @click="saveSequence(1)">Save Sequence 1</button>
+      <button @click="saveSequence(2)">Save Sequence 2</button>
+      <button @click="clearSequence()">Clear Current Sequence</button>
+    </div>
+    <div>
+      <button @click="playSavedSequence(1)">Saved Sequence 1</button>
+      <button @click="playSavedSequence(2)">Saved Sequence 2</button>
+    </div>
+    <div>
+      BPM:
+      <input type="number" v-model="BPM" />
+    </div>
+    <div>
+      Title:
+      <input />
+      Description:
+      <input />
+      <!-- stopping point for the night, need to allow for
+      title and desc to be posted to db, figure out how sequence will
+      be auto filled. Likely by selecting sequence first somehow -->
+      <button @click="postSequence()">Submit</button>
+    </div>
   </div>
 </template>
 
