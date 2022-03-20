@@ -5,6 +5,7 @@ export default {
   data: function () {
     return {
       user: {},
+      currentUser: null,
     };
   },
   created: function () {
@@ -12,6 +13,7 @@ export default {
   },
   methods: {
     userInfo: function () {
+      this.currentUser = parseInt(localStorage.getItem("user_id"));
       axios.get(`/users/${this.$route.params.id}`).then((response) => {
         console.log(response.data);
         this.user = response.data;
@@ -32,7 +34,9 @@ export default {
     <h1>{{ post.title }}</h1>
     <p>{{ post.description }}</p>
   </div>
-  <a v-bind:href="`/posts/new`">New Post</a>
+  <div v-if="this.$route.params.id == currentUser">
+    <a v-bind:href="`/posts/new`">New Post</a>
+  </div>
 </template>
 
 <style></style>
