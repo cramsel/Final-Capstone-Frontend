@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import * as Tone from "tone";
 
 export default {
   data: function () {
@@ -18,6 +19,16 @@ export default {
         this.post = response.data;
       });
     },
+    playLoop: function (audio_url) {
+      const synth = new Tone.Synth().toDestination();
+      const now = Tone.now();
+      var startTime = 0;
+      JSON.parse(audio_url).forEach((note) => {
+        console.log(note);
+        synth.triggerAttackRelease(note[0], note[1], now + startTime);
+        startTime += note[1] + 0.1;
+      });
+    },
   },
 };
 </script>
@@ -27,9 +38,14 @@ export default {
     <a v-bind:href="`/users/${post.user.id}`">
       <p>{{ post.user.username }}</p>
     </a>
-    <audio controls v-if="post.audio_url">
-      <source v-bind:src="post.audio_url" />
-    </audio>
+    <div v-if="post.audio_type">
+      <audio controls v-if="post.audio_url">
+        <source v-bind:src="post.audio_url" />
+      </audio>
+    </div>
+    <div v-else>
+      <button @click="playLoop(post.audio_url)">Play Sequence</button>
+    </div>
     <h2>{{ post.title }}</h2>
     <p>{{ post.description }}</p>
   </div>

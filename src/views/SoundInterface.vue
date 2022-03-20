@@ -1,4 +1,5 @@
 <script>
+import axios from "axios";
 import * as Tone from "tone";
 
 export default {
@@ -12,6 +13,9 @@ export default {
       endTime: null,
       time: "",
       lastNote: "",
+      title: "",
+      description: "",
+      sequenceToPost: null,
     };
   },
   created: function () {},
@@ -57,7 +61,17 @@ export default {
       this.playLoop(savedSequence);
     },
     postSequence: function () {
-      console.log("test");
+      var savedSequence = localStorage.getItem(`sequence${this.sequenceToPost}`);
+      var formData = new FormData();
+      formData.append("title", this.title);
+      formData.append("description", this.description);
+      formData.append("audio_url", savedSequence);
+      formData.append("audio_type", false);
+
+      axios.post("/posts", formData).then((response) => {
+        console.log(response.data);
+        this.$router.push("/");
+      });
     },
   },
 };
@@ -106,14 +120,18 @@ export default {
       <input type="number" v-model="BPM" />
     </div>
     <div>
-      Title:
-      <input />
-      Description:
-      <input />
-      <!-- stopping point for the night, need to allow for
-      title and desc to be posted to db, figure out how sequence will
-      be auto filled. Likely by selecting sequence first somehow -->
-      <button @click="postSequence()">Submit</button>
+      <form v-on:submit.prevent="postSequence()">
+        Title:
+        <input type="text" v-model="title" />
+        Description:
+        <input type="text" v-model="description" />
+        <select class="form-select" v-model="sequenceToPost">
+          <option selected>Select Sequence</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+        </select>
+        <input type="Submit" value="Post" />
+      </form>
     </div>
   </div>
 </template>
