@@ -14,7 +14,7 @@ export default {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: #444b6e !important">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">The Yardstick</a>
       <button
@@ -76,21 +76,13 @@ export default {
 </template>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
 #nav {
   padding: 30px;
 }
 
-#nav a {
+#nav-link {
   font-weight: bold;
-  color: #2c3e50;
+  color: #bcecf0 !important;
 }
 
 #nav a.router-link-exact-active {

@@ -35,7 +35,7 @@ export default {
 
 <template>
   <div class="Main Post">
-    <a v-bind:href="`/users/${post.user.id}`">
+    <a style="font-size: 5em; text-decoration: none; max-width: 100px" v-bind:href="`/users/${post.user.id}`">
       <p>{{ post.user.username }}</p>
     </a>
     <div v-if="post.audio_type">
@@ -44,7 +44,13 @@ export default {
       </audio>
     </div>
     <div v-else>
-      <button @click="playLoop(post.audio_url)">Play Sequence</button>
+      <button
+        class="btn btn-secondary"
+        style="border-color: rgb(8, 48, 36) !important"
+        @click="playLoop(post.audio_url)"
+      >
+        Play Sequence
+      </button>
     </div>
     <h2>{{ post.title }}</h2>
     <p>{{ post.description }}</p>
@@ -55,4 +61,9 @@ export default {
   </div>
 </template>
 
-<style></style>
+<style scoped>
+* {
+  color: #bcecf0 !important;
+  text-align: center;
+}
+</style>

@@ -7,7 +7,6 @@ export default {
     return {
       sequence: [],
       holdTime: null,
-      BPM: 60,
       synth: null,
       startTime: null,
       endTime: null,
@@ -78,62 +77,154 @@ export default {
 </script>
 
 <template>
-  <div>
+  <div class="full-page">
     <h2>Sequence</h2>
-    {{ sequence }}
+    <p>{{ sequence }}</p>
 
     <div>
-      <button v-if="sequence" v-on:click="playLoop(this.sequence)">Play</button>
-    </div>
-    <div class="notes">
       <button
-        v-on:mousedown="startNote('C4')"
-        @keydown.a="startNote('C4')"
-        v-on:mouseup="stopNote('C4')"
-        @keyup.a="stopNote('C4')"
+        class="btn btn-secondary"
+        style="border-color: rgb(8, 48, 36) !important"
+        v-if="sequence"
+        v-on:click="playLoop(this.sequence)"
       >
-        C note
+        Play
       </button>
-      <button v-on:mousedown="startNote('D4')" v-on:mouseup="stopNote('D4')">D note</button>
-      <!-- <button @keydown.d="startNote('D4')" @keyup.d="stopNote('D4')">Test note</button> -->
-      <!-- stopping point for the night, need to research keyup/down for vue as 
-      well as looking into making these as posts -->
+    </div>
 
-      <button v-on:mousedown="startNote('E4')" v-on:mouseup="stopNote('E4')">E note</button>
-      <button v-on:mousedown="startNote('F4')" v-on:mouseup="stopNote('F4')">F note</button>
-      <button v-on:mousedown="startNote('G4')" v-on:mouseup="stopNote('G4')">G note</button>
-      <button v-on:mousedown="startNote('A4')" v-on:mouseup="stopNote('A4')">A note</button>
-      <button v-on:mousedown="startNote('B4')" v-on:mouseup="stopNote('B4')">B note</button>
-      <button v-on:mousedown="startNote('C5')" v-on:mouseup="stopNote('C5')">C note</button>
+    <div class="row row-notes">
+      <div class="col">
+        <button
+          class="notes button"
+          v-on:mousedown="startNote('C4')"
+          @keydown.a="startNote('C4')"
+          v-on:mouseup="stopNote('C4')"
+          @keyup.a="stopNote('C4')"
+        >
+          C note
+        </button>
+      </div>
+      <div class="col">
+        <button class="notes button" v-on:mousedown="startNote('D4')" v-on:mouseup="stopNote('D4')">D note</button>
+      </div>
+      <div class="col">
+        <button class="notes button" v-on:mousedown="startNote('E4')" v-on:mouseup="stopNote('E4')">E note</button>
+      </div>
+      <div class="col">
+        <button class="notes button" v-on:mousedown="startNote('F4')" v-on:mouseup="stopNote('F4')">F note</button>
+      </div>
+      <div class="col">
+        <button class="notes button" v-on:mousedown="startNote('G4')" v-on:mouseup="stopNote('G4')">G note</button>
+      </div>
+      <div class="col">
+        <button class="notes button" v-on:mousedown="startNote('A4')" v-on:mouseup="stopNote('A4')">A note</button>
+      </div>
+      <div class="col">
+        <button class="notes button" v-on:mousedown="startNote('B4')" v-on:mouseup="stopNote('B4')">B note</button>
+      </div>
+      <div class="col">
+        <button class="notes button" v-on:mousedown="startNote('C5')" v-on:mouseup="stopNote('C5')">C note</button>
+      </div>
     </div>
-    <div>
-      <button @click="saveSequence(1)">Save Sequence 1</button>
-      <button @click="saveSequence(2)">Save Sequence 2</button>
-      <button @click="clearSequence()">Clear Current Sequence</button>
+
+    <div class="save-sequence">
+      <button class="btn btn-success" style="border-color: rgb(8, 48, 36) !important" @click="saveSequence(1)">
+        Save Sequence 1
+      </button>
+      <button class="btn btn-success" style="border-color: rgb(8, 48, 36) !important" @click="saveSequence(2)">
+        Save Sequence 2
+      </button>
+      <button class="btn btn-danger" style="border-color: rgb(8, 48, 36) !important" @click="clearSequence()">
+        Clear Current Sequence
+      </button>
     </div>
-    <div>
-      <button @click="playSavedSequence(1)">Saved Sequence 1</button>
-      <button @click="playSavedSequence(2)">Saved Sequence 2</button>
+
+    <div style="padding: 10px">
+      <button class="btn btn-secondary" style="border-color: rgb(8, 48, 36) !important" @click="playSavedSequence(1)">
+        Saved Sequence 1
+      </button>
+      <button class="btn btn-secondary" style="border-color: rgb(8, 48, 36) !important" @click="playSavedSequence(2)">
+        Saved Sequence 2
+      </button>
     </div>
+
     <div>
-      BPM:
-      <input type="number" v-model="BPM" />
-    </div>
-    <div>
-      <form v-on:submit.prevent="postSequence()">
-        Title:
-        <input type="text" v-model="title" />
-        Description:
-        <input type="text" v-model="description" />
-        <select class="form-select" v-model="sequenceToPost">
-          <option selected>Select Sequence</option>
-          <option value="1">One</option>
-          <option value="2">Two</option>
-        </select>
-        <input type="Submit" value="Post" />
+      <form class="row form-sequence" v-on:submit.prevent="postSequence()">
+        <div class="form-group">
+          <label>Title:</label>
+          <input class="form-control" type="text" v-model="title" />
+        </div>
+        <div class="form-group">
+          Description:
+          <input class="form-control" type="text" v-model="description" />
+        </div>
+        <div class="form-group">
+          Select Sequence:
+          <select class="form-control form-select" v-model="sequenceToPost">
+            Select Sequence
+            <!-- <option selected>Select Sequence</option> -->
+            <option value="1">One</option>
+            <option value="2">Two</option>
+          </select>
+        </div>
+        <div style="text-align: center">
+          <input class="btn btn-primary mt-3" type="Submit" value="Post" />
+        </div>
       </form>
     </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+.full-page {
+  color: #bcecf0 !important;
+  text-align: center;
+}
+.row-notes {
+  margin: auto;
+  width: 60%;
+}
+.notes {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+.form-sequence {
+  text-align: left;
+  width: 50%;
+  margin: 0 auto;
+}
+.button {
+  background-color: #04aa6d;
+  border-color: rgb(8, 48, 36);
+  border-radius: 50%;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  /* margin: auto; */
+  width: 100%;
+  height: 90%;
+  /* padding: 100px; */
+}
+
+/* .drop-down {
+  margin-left: 45%;
+  max-width: 200px;
+} */
+
+.row-submits {
+  max-width: 800px;
+  padding-left: 100px;
+  padding-right: 100px;
+  margin: auto;
+}
+.inputs {
+  text-align: left;
+  padding-right: 100px;
+  max-width: 100px;
+}
+</style>

@@ -33,20 +33,90 @@ export default {
 </script>
 
 <template>
-  <div class="home" v-for="post in posts" v-bind:key="post.id">
-    <a v-bind:href="`/posts/${post.id}`">
-      <h2>{{ post.title }}</h2>
-    </a>
-    <div v-if="post.audio_type">
-      <audio controls v-if="post.audio_url">
-        <source v-bind:src="post.audio_url" />
-      </audio>
+  <div class="home">
+    <div class="row">
+      <div v-for="post in posts" v-bind:key="post.id" class="col-sm-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a v-bind:href="`/posts/${post.id}`" style="color: rgb(10, 77, 57); text-decoration: none">
+                <h2>{{ post.title }}</h2>
+              </a>
+            </h5>
+            <div class="card-text">
+              <div class="audio" v-if="post.audio_type">
+                <audio controls v-if="post.audio_url">
+                  <source v-bind:src="post.audio_url" />
+                </audio>
+              </div>
+              <div class="audio" v-else>
+                <button @click="playLoop(post.audio_url)">Play Sequence</button>
+              </div>
+              <p>{{ post.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <div v-else>
-      <button @click="playLoop(post.audio_url)">Play Sequence</button>
+
+    <!-- <div v-for="post in posts" v-bind:key="post.id">
+    <div class="card">
+      <div class="card-body">
+        <a class="card-title" v-bind:href="`/posts/${post.id}`" style="color: rgb(10, 77, 57); text-decoration: none">
+          <h2>{{ post.title }}</h2>
+        </a>
+        <div v-if="post.audio_type">
+          <audio controls v-if="post.audio_url">
+            <source v-bind:src="post.audio_url" />
+          </audio>
+        </div>
+        <div v-else>
+          <button @click="playLoop(post.audio_url)">Play Sequence</button>
+        </div>
+        <p class="card-text">{{ post.description }}</p>
+      </div>
     </div>
-    <p>{{ post.description }}</p>
+  </div> -->
   </div>
 </template>
 
-<style></style>
+<style>
+/* .a {
+  color: rgb(10, 77, 57);
+  width: 300px;
+  padding: 1em 1.5em;
+  text-decoration: none;
+} */
+
+* {
+  font-family: Century Gothic, CenturyGothic, AppleGothic, sans-serif;
+}
+
+.col-sm-3 {
+  padding-bottom: 20px;
+  margin: auto;
+  /* margin-right: 10px; */
+}
+
+body {
+  background: #0b3c49;
+}
+
+.card {
+  box-shadow: 10px 10px 15px -2px rgba(8, 17, 10, 1);
+  background-color: #c2f9bb;
+  align-items: center;
+  min-height: 200px;
+  max-height: 200px;
+}
+.card-text {
+  width: 300px;
+  align-items: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.audio {
+}
+</style>
