@@ -41,7 +41,14 @@ export default {
       <input type="text" v-model="description" />
       Audio:
       <input type="file" v-on:change="setFile($event)" ref="audioUrl" />
-      <input type="Submit" value="Post" />
+      <input class="btn btn-primary mt-3" type="Submit" value="Post" />
     </form>
   </div>
 </template>
+
+<style scoped>
+* {
+  color: #bcecf0 !important;
+  text-align: center;
+}
+</style>
